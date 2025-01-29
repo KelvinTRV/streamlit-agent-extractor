@@ -18,11 +18,8 @@ uploaded_file = st.file_uploader("Or upload an HTML file", type=["txt", "html"])
 def fetch_html(url):
     try:
         response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
-        if response.status_code == 200:
-            return response.text
-        else:
-            st.error(f"Failed to retrieve page (Status code: {response.status_code})")
-            return None
+        st.text_area("Fetched HTML", response.text[:5000])  # Show first 5000 chars
+        return response.text if response.status_code == 200 else None
     except Exception as e:
         st.error(f"Error fetching URL: {e}")
         return None
